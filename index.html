@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<!-- ─── Security headers (meta-equivalent) ───────────────
+     Note: meta-tag CSP is a fallback. For production, serve these as
+     real HTTP headers from your host (Cloudflare Pages / Netlify / nginx).
+-->
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  style-src 'self' 'unsafe-inline';
+  font-src 'self';
+  img-src 'self' data:;
+  script-src 'self' 'unsafe-inline';
+  connect-src 'self';
+  form-action 'self';
+  frame-ancestors 'none';
+  base-uri 'self';
+  object-src 'none';
+  upgrade-insecure-requests;
+">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="index, follow">
+<meta name="color-scheme" content="light">
+
+<title data-i18n="meta.title">Mambas Consulting — Project Management, Data & Software Consultancy</title>
+<link rel="stylesheet" href="fonts.css">
+<style>
+  :root {
+    --teal: #0e6b6b;
+    --teal-deep: #094f4f;
+    --teal-light: #2a9999;
+
+    --bg: #fdfcfa;
+    --bg-teal: #d9ecec;
+    --bg-peach: #ffe9dc;
+    --bg-mint: #d9f0e3;
+    --bg-cream: #fbf4e6;
+    --bg-rose: #ffe4e4;
+
+    --peach: #ff8a5c;
+    --rose: #e87878;
+
+    --ink: #1a2828;
+    --ink-soft: #50585e;
+    --ink-mute: #8b9296;
+    --line: #e5e8e6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Geist', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-weight: 400;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ─── LOGO ────────────────────────────────────────── */
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    text-decoration: none;
+    color: inherit;
+  }
+  .logo-paw {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+  }
+  .logo-name {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.55rem;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  /* ─── NAV ─────────────────────────────────────────── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(253, 252, 250, 0.78);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+  .nav-links a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--teal); }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .nav-cta {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--bg);
+    background: var(--teal);
+    border: 1px solid var(--teal);
+    padding: 0.55rem 1.1rem;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav-cta:hover {
+    background: var(--teal-deep);
+    border-color: var(--teal-deep);
+    transform: translateY(-1px);
+  }
+
+  /* ─── LANGUAGE SWITCH ──────────────────────────────── */
+  .visually-hidden {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0);
+    white-space: nowrap; border: 0;
+  }
+  .lang-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-mute);
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid var(--line);
+    padding: 0.3rem 0.55rem;
+    border-radius: 100px;
+    min-inline-size: auto;
+  }
+  .lang-switch button {
+    background: none;
+    border: none;
+    padding: 0.15rem 0.35rem;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    border-radius: 100px;
+    transition: all 0.2s;
+  }
+  .lang-switch button.active {
+    background: var(--teal);
+    color: var(--bg);
+  }
+  .lang-switch button:not(.active):hover {
+    color: var(--teal);
+  }
+  .lang-switch .sep {
+    opacity: 0.5;
+  }
+
+  /* ─── HERO ─────────────────────────────────────────── */
+  .hero {
+    padding: 12rem 0 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .blob-1 {
+    top: 5%; right: -5%;
+    width: 480px; height: 480px;
+    background: var(--bg-teal);
+    animation: drift 18s ease-in-out infinite;
+  }
+  .blob-2 {
+    top: 30%; right: 20%;
+    width: 380px; height: 380px;
+    background: var(--bg-peach);
+    animation: drift 22s ease-in-out infinite 2s reverse;
+  }
+  .blob-3 {
+    bottom: -10%; left: -8%;
+    width: 420px; height: 420px;
+    background: var(--bg-mint);
+    animation: drift 20s ease-in-out infinite 4s;
+  }
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -30px) scale(1.05); }
+    66% { transform: translate(-25px, 20px) scale(0.97); }
+  }
+
+  .paw-decoration {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.08;
+  }
+  .paw-deco-1 { top: 20%; right: 8%; width: 80px; transform: rotate(-15deg); }
+  .paw-deco-2 { top: 60%; left: 6%; width: 60px; transform: rotate(25deg); }
+  .paw-deco-3 { bottom: 15%; right: 25%; width: 50px; transform: rotate(-30deg); }
+
+  .hero-eyebrow {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-mute);
+    letter-spacing: 0.08em;
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    animation: fadeUp 0.7s ease 0.05s both;
+  }
+  .hero-eyebrow .pulse {
+    width: 7px; height: 7px;
+    background: var(--teal);
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(14, 107, 107, 0.6);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(14, 107, 107, 0.6); }
+    50% { box-shadow: 0 0 0 8px rgba(14, 107, 107, 0); }
+  }
+
+  .hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2.8rem, 7.5vw, 6.5rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 2rem;
+    max-width: 1100px;
+    animation: fadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s both;
+  }
+  .hero h1 .em-teal { font-style: italic; color: var(--teal); }
+  .hero h1 .em-peach { font-style: italic; color: var(--peach); }
+  .hero h1 .em-rose { font-style: italic; color: var(--rose); }
+
+  .hero-sub {
+    font-size: 1.15rem;
+    color: var(--ink-soft);
+    max-width: 620px;
+    margin-bottom: 3rem;
+    line-height: 1.6;
+    animation: fadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s both;
+  }
+
+  .btn {
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.95rem 1.6rem;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid transparent;
+  }
+  .btn-primary {
+    background: var(--teal);
+    color: var(--bg);
+  }
+  .btn-primary:hover {
+    background: var(--teal-deep);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px -10px rgba(14, 107, 107, 0.6);
+  }
+  .btn-ghost {
+    color: var(--ink);
+    border-color: var(--line);
+    background: rgba(253, 252, 250, 0.6);
+    backdrop-filter: blur(10px);
+  }
+  .btn-ghost:hover {
+    border-color: var(--teal);
+    color: var(--teal);
+  }
+  .arrow { display: inline-block; transition: transform 0.2s; }
+  .btn:hover .arrow { transform: translateX(3px); }
+
+  /* ─── HERO PILLARS ─────────────────────────────── */
+  .hero-pillars {
+    margin-top: 5rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    animation: fadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.55s both;
+  }
+  .pillar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .pillar-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2.5rem;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--teal);
+  }
+  .pillar:nth-child(2) .pillar-num { color: var(--peach); font-style: italic; }
+  .pillar:nth-child(3) .pillar-num { color: var(--teal-light); }
+  .pillar:nth-child(4) .pillar-num { color: var(--rose); font-style: italic; }
+  .pillar-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .pillar-text {
+    color: var(--ink-soft);
+    font-size: 0.93rem;
+    line-height: 1.5;
+    margin-top: 0.3rem;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── SECTIONS ────────────────────────────────────── */
+  section {
+    padding: 7rem 0;
+    position: relative;
+  }
+
+  .section-head {
+    margin-bottom: 5rem;
+    max-width: 900px;
+  }
+  .section-eyebrow {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--teal);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .section-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: currentColor;
+  }
+  .section-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+  }
+  .section-title .it-teal { font-style: italic; color: var(--teal); }
+  .section-title .it-peach { font-style: italic; color: var(--peach); }
+  .section-title .it-rose { font-style: italic; color: var(--rose); }
+  .section-intro {
+    color: var(--ink-soft);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-top: 1.5rem;
+    max-width: 720px;
+  }
+
+  /* ─── SERVICES ══════════════════════════════════════ */
+  .services {
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg-cream) 100%);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .services::before {
+    content: '';
+    position: absolute;
+    top: 10%; right: -10%;
+    width: 500px; height: 500px;
+    background: var(--bg-teal);
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .services .container { position: relative; z-index: 1; }
+
+  .service-list { display: flex; flex-direction: column; }
+
+  .service-item {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 3rem;
+    padding: 2.5rem 0;
+    border-top: 1px solid var(--line);
+    align-items: start;
+    cursor: pointer;
+    transition: padding 0.3s ease;
+    position: relative;
+  }
+  .service-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--hover-tint, transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+    border-radius: 16px;
+    margin: 0 -1.5rem;
+    z-index: 0;
+  }
+  .service-item:hover::before { opacity: 0.5; }
+  .service-item:hover { padding-left: 1rem; }
+  .service-item:last-child { border-bottom: 1px solid var(--line); }
+  .service-item > * { position: relative; z-index: 1; }
+
+  .service-item.teal { --hover-tint: var(--bg-teal); }
+  .service-item.peach { --hover-tint: var(--bg-peach); }
+  .service-item.mint { --hover-tint: var(--bg-mint); }
+  .service-item.rose { --hover-tint: var(--bg-rose); }
+
+  .service-num {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--ink-mute);
+    padding-top: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .service-num .marker {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+  .service-item.teal .marker { background: var(--teal); }
+  .service-item.peach .marker { background: var(--peach); }
+  .service-item.mint .marker { background: #4caf85; }
+  .service-item.rose .marker { background: var(--rose); }
+
+  .service-body h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.8rem;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+  .service-badge {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--teal);
+    background: rgba(14, 107, 107, 0.08);
+    padding: 0.3rem 0.6rem;
+    border-radius: 100px;
+    border: 1px solid rgba(14, 107, 107, 0.2);
+    font-style: normal;
+  }
+  .service-item.teal:hover .service-body h3 { color: var(--teal); }
+  .service-item.peach:hover .service-body h3 { color: var(--peach); }
+  .service-item.mint:hover .service-body h3 { color: #4caf85; }
+  .service-item.rose:hover .service-body h3 { color: var(--rose); }
+
+  .service-body p {
+    color: var(--ink-soft);
+    max-width: 600px;
+    font-size: 0.98rem;
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+  }
+
+  .service-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .service-tag {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid var(--line);
+    padding: 0.25rem 0.7rem;
+    border-radius: 100px;
+  }
+
+  .service-arrow {
+    font-size: 1.5rem;
+    color: var(--ink-mute);
+    padding-top: 0.2rem;
+    transition: all 0.3s;
+  }
+  .service-item:hover .service-arrow { transform: translate(4px, -4px); }
+  .service-item.teal:hover .service-arrow { color: var(--teal); }
+  .service-item.peach:hover .service-arrow { color: var(--peach); }
+  .service-item.mint:hover .service-arrow { color: #4caf85; }
+  .service-item.rose:hover .service-arrow { color: var(--rose); }
+
+  /* ─── DHTMLX BANNER (compact) ─────────────────── */
+  .dhtmlx-banner {
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-deep) 100%);
+    color: var(--bg);
+    padding: 4rem 0;
+    overflow: hidden;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .dhtmlx-banner::before {
+    content: '';
+    position: absolute;
+    top: 50%; right: -5%;
+    transform: translateY(-50%);
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(255, 138, 92, 0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .dhtmlx-banner .container { position: relative; z-index: 1; }
+
+  .partner-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 500;
+    background: white;
+    padding: 0.45rem 0.9rem;
+    border-radius: 100px;
+    border: 1px solid rgba(14, 107, 107, 0.2);
+  }
+  .partner-badge::before { content: '★'; color: var(--teal); }
+
+  .banner-inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 2.5rem;
+    align-items: center;
+  }
+  .banner-paw {
+    width: 72px;
+    height: 72px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    flex-shrink: 0;
+  }
+  .banner-paw svg { width: 100%; height: 100%; }
+
+  .banner-content .partner-badge {
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--bg);
+    border-color: rgba(255, 255, 255, 0.25);
+    margin-bottom: 1rem;
+  }
+  .banner-content .partner-badge::before { color: var(--peach); }
+
+  .banner-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.6rem;
+    color: var(--bg);
+  }
+  .banner-title em {
+    font-style: italic;
+    color: var(--peach);
+  }
+  .banner-desc {
+    color: rgba(253, 252, 250, 0.8);
+    font-size: 0.98rem;
+    line-height: 1.55;
+    max-width: 540px;
+  }
+  .dhtmlx-banner .btn-primary {
+    background: var(--bg);
+    color: var(--teal-deep);
+    white-space: nowrap;
+  }
+  .dhtmlx-banner .btn-primary:hover {
+    background: var(--peach);
+    color: var(--bg);
+    box-shadow: 0 10px 30px -10px rgba(255, 138, 92, 0.5);
+  }
+
+  /* ─── ABOUT ───────────────────────────────────────── */
+  .about {
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg-cream) 100%);
+    overflow: hidden;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .about::before {
+    content: '';
+    position: absolute;
+    top: 20%; left: -10%;
+    width: 450px; height: 450px;
+    background: var(--bg-teal);
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .about .container { position: relative; z-index: 1; }
+
+  .about-text {
+    max-width: 780px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .about-text .section-eyebrow {
+    justify-content: center;
+  }
+  .about-text .section-title {
+    margin-bottom: 3rem;
+  }
+  .about-text p {
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    text-align: left;
+  }
+  .about-text p:first-of-type {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.55rem;
+    line-height: 1.4;
+    color: var(--ink);
+    font-style: italic;
+    margin-bottom: 2.5rem;
+    text-align: center;
+  }
+  .about-principles {
+    margin-top: 3.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    text-align: left;
+  }
+  .principle-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.8rem;
+    font-style: italic;
+    color: var(--teal);
+    margin-bottom: 0.4rem;
+  }
+  .principle-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .principle-desc {
+    color: var(--ink-soft);
+    font-size: 0.93rem;
+    line-height: 1.55;
+  }
+
+  /* ─── APPROACH ════════════════════════════════════════ */
+  .approach {
+    background: var(--bg-teal);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .approach::before {
+    content: '';
+    position: absolute;
+    top: -20%; right: -10%;
+    width: 600px; height: 600px;
+    background: var(--bg-peach);
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  .approach::after {
+    content: '';
+    position: absolute;
+    bottom: -20%; left: 30%;
+    width: 500px; height: 500px;
+    background: var(--bg-mint);
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .approach .container { position: relative; z-index: 1; }
+
+  .approach-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 4rem;
+  }
+  .approach-item {
+    background: rgba(253, 252, 250, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 20px;
+    padding: 2rem;
+    transition: transform 0.3s;
+  }
+  .approach-item:hover { transform: translateY(-4px); }
+  .approach-num {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 1.2rem;
+  }
+  .approach-item:nth-child(1) .approach-num { color: var(--teal); }
+  .approach-item:nth-child(2) .approach-num { color: var(--peach); }
+  .approach-item:nth-child(3) .approach-num { color: var(--rose); }
+
+  .approach-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.8rem;
+  }
+  .approach-desc {
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  /* ─── CTA STRIP ─────────────────────────────────── */
+  .cta-strip {
+    padding: 5rem 0;
+    background: var(--teal-deep);
+    color: var(--bg);
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-strip::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(255, 138, 92, 0.2) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-paw {
+    position: absolute;
+    right: 5%;
+    bottom: -15%;
+    width: 280px;
+    opacity: 0.08;
+    pointer-events: none;
+  }
+  .cta-strip .container { position: relative; z-index: 1; }
+  .cta-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  .cta-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .cta-title em {
+    font-style: italic;
+    color: var(--peach);
+  }
+  .cta-action { justify-self: end; }
+  .cta-strip .btn-primary {
+    background: var(--bg);
+    color: var(--teal-deep);
+  }
+  .cta-strip .btn-primary:hover {
+    background: var(--peach);
+    color: var(--bg);
+    box-shadow: 0 10px 30px -10px rgba(255, 138, 92, 0.5);
+  }
+
+  /* ─── CONTACT ═══════════════════════════════════════ */
+  .contact {
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg-peach) 100%);
+    overflow: hidden;
+  }
+  .contact::before {
+    content: '';
+    position: absolute;
+    top: 10%; left: -10%;
+    width: 500px; height: 500px;
+    background: var(--bg-teal);
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .contact .container { position: relative; z-index: 1; }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .contact-info .section-title { margin-bottom: 1.5rem; }
+  .contact-info > p {
+    color: var(--ink-soft);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 3rem;
+    max-width: 460px;
+  }
+
+  .contact-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .contact-list li {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+  .contact-list li:last-child { border-bottom: none; }
+  .contact-key {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .contact-val {
+    font-size: 0.98rem;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.2s;
+    text-align: right;
+  }
+  .contact-val:hover { color: var(--teal); }
+
+  .form {
+    background: rgba(253, 252, 250, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    padding: 2.5rem;
+    border-radius: 20px;
+  }
+  .form-row { margin-bottom: 1.3rem; }
+  .form-row-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.3rem;
+    margin-bottom: 1.3rem;
+  }
+  .form-label {
+    display: block;
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+  .form-input,
+  .form-textarea,
+  .form-select {
+    width: 100%;
+    padding: 0.85rem 0;
+    border: none;
+    border-bottom: 1px solid var(--line);
+    background: transparent;
+    font-family: 'Geist', sans-serif;
+    font-size: 1rem;
+    color: var(--ink);
+    transition: border-color 0.2s;
+  }
+  .form-select { cursor: pointer; }
+  .form-input:focus,
+  .form-textarea:focus,
+  .form-select:focus {
+    outline: none;
+    border-bottom-color: var(--teal);
+  }
+  .form-textarea { resize: vertical; min-height: 90px; }
+  .form-input::placeholder,
+  .form-textarea::placeholder { color: var(--ink-mute); }
+
+  .form-submit {
+    width: 100%;
+    background: var(--teal);
+    color: var(--bg);
+    padding: 1rem;
+    border: none;
+    border-radius: 100px;
+    font-family: 'Geist', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  .form-submit:hover {
+    background: var(--teal-deep);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px -10px rgba(14, 107, 107, 0.5);
+  }
+
+  /* ─── DIRECT CONTACT CARD ─────────────────────────── */
+  .direct-contact {
+    text-align: center;
+    padding: 3rem 2.5rem;
+  }
+  .direct-paw {
+    width: 64px;
+    height: 64px;
+    background: var(--bg-teal);
+    border-radius: 18px;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+  }
+  .direct-paw svg { width: 100%; height: 100%; }
+  .direct-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.8rem;
+    color: var(--ink);
+  }
+  .direct-desc {
+    color: var(--ink-soft);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .direct-contact .form-submit {
+    width: auto;
+    display: inline-flex;
+    padding: 1rem 2rem;
+    margin: 0 auto;
+    text-decoration: none;
+  }
+  .direct-email {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--ink-mute);
+    letter-spacing: 0.02em;
+  }
+  .direct-email a {
+    color: var(--teal);
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 0.3rem;
+    transition: color 0.2s;
+  }
+  .direct-email a:hover { color: var(--teal-deep); }
+
+  /* ─── FOOTER ─────────────────────────────────────── */
+  footer {
+    padding: 4rem 0 2rem;
+    border-top: 1px solid var(--line);
+    background: var(--bg);
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 4rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .footer-tagline {
+    color: var(--ink-soft);
+    max-width: 320px;
+    line-height: 1.55;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+  }
+  .footer-col h4 {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.2rem;
+    font-weight: 500;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 0.7rem; }
+  .footer-col a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color 0.2s;
+    font-size: 0.95rem;
+  }
+  .footer-col a:hover { color: var(--teal); }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-mute);
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  /* ─── RESPONSIVE ─────────────────────────────────── */
+  @media (max-width: 900px) {
+    .hero-pillars { grid-template-columns: repeat(2, 1fr); gap: 2rem 1.5rem; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .about-principles { grid-template-columns: 1fr; gap: 1.5rem; }
+  }
+  @media (max-width: 768px) {
+    .nav-inner { padding: 0.9rem 1.5rem; gap: 0.75rem; }
+    .nav-links { display: none; }
+    .container, .hero-inner, .footer-inner { padding: 0 1.5rem; }
+    .hero { padding: 8rem 0 3rem; }
+    section { padding: 5rem 0; }
+    .contact-grid, .cta-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .banner-inner { grid-template-columns: 1fr; gap: 1.5rem; text-align: left; }
+    .banner-paw { width: 56px; height: 56px; padding: 10px; }
+    .approach-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+    .form-row-grid { grid-template-columns: 1fr; }
+    .service-item { grid-template-columns: 50px 1fr; gap: 1rem; }
+    .service-arrow { display: none; }
+    .blob-1, .blob-2, .blob-3 { width: 280px; height: 280px; }
+    .cta-action { justify-self: start; }
+    .paw-decoration { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Paw SVG symbol -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="paw" viewBox="0 0 100 100">
+      <ellipse cx="22" cy="32" rx="9" ry="11"/>
+      <ellipse cx="42" cy="20" rx="9" ry="12"/>
+      <ellipse cx="62" cy="20" rx="9" ry="12"/>
+      <ellipse cx="82" cy="32" rx="9" ry="11"/>
+      <path d="M 52 50
+               C 32 50, 22 65, 26 78
+               C 30 91, 45 95, 52 95
+               C 59 95, 74 91, 78 78
+               C 82 65, 72 50, 52 50 Z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ═══ NAV ═══════════════════════════════════════════ -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <svg class="logo-paw" viewBox="0 0 100 100" fill="var(--teal)">
+        <use href="#paw"/>
+      </svg>
+      <span class="logo-name">Mambas</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services" data-i18n="nav.services">Services</a></li>
+      <li><a href="#about" data-i18n="nav.about">About</a></li>
+      <li><a href="#approach" data-i18n="nav.approach">Approach</a></li>
+      <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <fieldset class="lang-switch">
+        <legend class="visually-hidden">Language</legend>
+        <button type="button" data-lang="en" aria-label="English">EN</button>
+        <span class="sep">·</span>
+        <button type="button" data-lang="tr" aria-label="Türkçe">TR</button>
+      </fieldset>
+      <a href="#contact" class="nav-cta" data-i18n="nav.cta">Get in touch</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HERO ══════════════════════════════════════════ -->
+<section class="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <svg class="paw-decoration paw-deco-1" viewBox="0 0 100 100" fill="var(--teal)">
+    <use href="#paw"/>
+  </svg>
+  <svg class="paw-decoration paw-deco-2" viewBox="0 0 100 100" fill="var(--teal)">
+    <use href="#paw"/>
+  </svg>
+  <svg class="paw-decoration paw-deco-3" viewBox="0 0 100 100" fill="var(--teal)">
+    <use href="#paw"/>
+  </svg>
+
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <span class="pulse"></span>
+      <span data-i18n="hero.eyebrow">Enterprise consultancy · Official DHTMLX reseller in Türkiye</span>
+    </div>
+
+    <h1 data-i18n-html="hero.title"><span class="em-teal">Better</span> projects, <span class="em-rose">built</span> <span class="em-peach">together.</span></h1>
+
+    <p class="hero-sub" data-i18n="hero.sub">
+      At Mambas Consulting we deliver end-to-end project management, PMO and
+      data analytics consultancy. We embed with our clients' teams to produce
+      sustainable, measurable outcomes — and back it up with DHTMLX UI components
+      where it matters.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#contact" class="btn btn-primary">
+        <span data-i18n="hero.ctaPrimary">Let's work together</span>
+        <span class="arrow">→</span>
+      </a>
+      <a href="#services" class="btn btn-ghost" data-i18n="hero.ctaGhost">
+        Our services
+      </a>
+    </div>
+
+    <div class="hero-pillars">
+      <div class="pillar">
+        <div class="pillar-num">10+</div>
+        <div class="pillar-label" data-i18n="pillar.1.label">Years of experience</div>
+        <div class="pillar-text" data-i18n="pillar.1.text">A decade of project management and consultancy expertise.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">3</div>
+        <div class="pillar-label" data-i18n="pillar.2.label">Core focus areas</div>
+        <div class="pillar-text" data-i18n="pillar.2.text">Project management, PMO consultancy and data analytics.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">★</div>
+        <div class="pillar-label" data-i18n="pillar.3.label">DHTMLX Reseller</div>
+        <div class="pillar-text" data-i18n="pillar.3.text">Türkiye's authorized sales and integration partner.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">1:1</div>
+        <div class="pillar-label" data-i18n="pillar.4.label">Partnership</div>
+        <div class="pillar-text" data-i18n="pillar.4.text">Tailored, embedded engagement with every client team.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERVICES ══════════════════════════════════════ -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow" data-i18n="services.eyebrow">Our services</div>
+      <h2 class="section-title" data-i18n-html="services.title">Managing your enterprise projects <span class="it-teal">together.</span></h2>
+      <p class="section-intro" data-i18n="services.intro">
+        From project management and data analytics to software consultancy and licensed UI component
+        solutions — we are by your side at every stage your organization needs us.
+      </p>
+    </div>
+
+    <div class="service-list">
+
+      <div class="service-item teal">
+        <div class="service-num"><span class="marker"></span> 01</div>
+        <div class="service-body">
+          <h3><span data-i18n="services.1.title">Project Management Consultancy</span></h3>
+          <p data-i18n="services.1.desc">
+            We have been delivering enterprise projects for over a decade using both classical
+            (Waterfall) and agile (Agile, Scrum, SAFe) methodologies. From building roadmaps to
+            managing your team's daily rhythm — we step inside as part of your team and take active
+            ownership in planning, risk management, stakeholder communication and delivery.
+          </p>
+          <div class="service-tags">
+            <span class="service-tag">Agile / Scrum</span>
+            <span class="service-tag">SAFe</span>
+            <span class="service-tag" data-i18n="services.1.tag.waterfall">Waterfall</span>
+            <span class="service-tag" data-i18n="services.1.tag.roadmap">Roadmap</span>
+            <span class="service-tag" data-i18n="services.1.tag.risk">Risk Management</span>
+            <span class="service-tag" data-i18n="services.1.tag.stakeholder">Stakeholder Management</span>
+          </div>
+        </div>
+        <div class="service-arrow">↗</div>
+      </div>
+
+      <div class="service-item peach">
+        <div class="service-num"><span class="marker"></span> 02</div>
+        <div class="service-body">
+          <h3><span data-i18n="services.2.title">PMO &amp; Process Consultancy</span></h3>
+          <p data-i18n="services.2.desc">
+            We help organizations establish or transform their Project Management Office —
+            designing governance models, standardizing methodologies, and embedding processes that
+            scale with your portfolio. From maturity assessment to operational rollout, we work
+            shoulder-to-shoulder with your leadership.
+          </p>
+          <div class="service-tags">
+            <span class="service-tag" data-i18n="services.2.tag.setup">PMO Setup</span>
+            <span class="service-tag" data-i18n="services.2.tag.transformation">PMO Transformation</span>
+            <span class="service-tag" data-i18n="services.2.tag.governance">Governance Design</span>
+            <span class="service-tag" data-i18n="services.2.tag.process">Process Standardization</span>
+            <span class="service-tag" data-i18n="services.2.tag.portfolio">Portfolio Management</span>
+            <span class="service-tag" data-i18n="services.2.tag.maturity">Maturity Assessment</span>
+          </div>
+        </div>
+        <div class="service-arrow">↗</div>
+      </div>
+
+      <div class="service-item mint">
+        <div class="service-num"><span class="marker"></span> 03</div>
+        <div class="service-body">
+          <h3><span data-i18n="services.3.title">Data Analytics &amp; Reporting</span></h3>
+          <p data-i18n="services.3.desc">
+            We give decision-makers the clarity they need: asking the right questions, collecting
+            the right data, turning it into meaningful insight. From operational reporting to
+            strategic dashboards, from KPI design to performance analytics — we deliver
+            end-to-end support.
+          </p>
+          <div class="service-tags">
+            <span class="service-tag" data-i18n="services.3.tag.dashboards">Dashboards</span>
+            <span class="service-tag" data-i18n="services.3.tag.kpi">KPI Design</span>
+            <span class="service-tag" data-i18n="services.3.tag.reporting">Operational Reporting</span>
+            <span class="service-tag" data-i18n="services.3.tag.process">Process Analysis</span>
+            <span class="service-tag" data-i18n="services.3.tag.bi">Business Intelligence</span>
+          </div>
+        </div>
+        <div class="service-arrow">↗</div>
+      </div>
+
+      <div class="service-item rose">
+        <div class="service-num"><span class="marker"></span> 04</div>
+        <div class="service-body">
+          <h3>
+            <span data-i18n="services.4.title">DHTMLX Licensing &amp; Consultancy</span>
+            <span class="service-badge" data-i18n="services.4.badge">Official Reseller</span>
+          </h3>
+          <p data-i18n="services.4.desc">
+            As DHTMLX's official sales partner in Türkiye, we license all JavaScript UI components —
+            including Gantt, Scheduler, Kanban, Grid, Spreadsheet, Pivot and Diagram. Beyond licensing,
+            we provide consultancy on product selection, integration and customization for teams
+            building their own project tools.
+          </p>
+          <div class="service-tags">
+            <span class="service-tag">Gantt Chart</span>
+            <span class="service-tag">Scheduler</span>
+            <span class="service-tag">Kanban</span>
+            <span class="service-tag">Grid &amp; Spreadsheet</span>
+            <span class="service-tag">React / Angular / Vue</span>
+            <span class="service-tag" data-i18n="services.4.tag.customization">Customization</span>
+          </div>
+        </div>
+        <div class="service-arrow">↗</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ═════════════════════════════════════════ -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-text">
+      <div class="section-eyebrow" data-i18n="about.eyebrow">About us</div>
+      <h2 class="section-title" data-i18n-html="about.title">A team with a <span class="it-peach">different</span> take on consultancy.</h2>
+
+      <p data-i18n="about.p1">
+        Mambas Consulting is a consultancy firm that believes the success of enterprise projects
+        depends not only on methodology, but on standing beside the team.
+      </p>
+      <p data-i18n="about.p2">
+        With more than a decade of experience, we focus on three areas where we add the most value:
+        project management consultancy, PMO &amp; process consultancy, and data analytics. We work
+        with a broad toolkit — from classical project management to agile methodologies (Agile,
+        Scrum, SAFe) — and adapt our approach to the unique dynamics of every engagement.
+      </p>
+      <p data-i18n="about.p3">
+        We value international partnerships: we are the official authorized reseller in Türkiye of
+        DHTMLX, the globally recognized JavaScript UI component library. Our clients gain both
+        direct access to licensed products and technical advisory for integrating these components
+        into their enterprise systems.
+      </p>
+
+      <div class="about-principles">
+        <div>
+          <div class="principle-num">01</div>
+          <div class="principle-title" data-i18n="about.principle.1.title">Clear communication</div>
+          <div class="principle-desc" data-i18n="about.principle.1.desc">No jargon, no hidden agendas — straight talk from day one.</div>
+        </div>
+        <div>
+          <div class="principle-num">02</div>
+          <div class="principle-title" data-i18n="about.principle.2.title">Measurable outcomes</div>
+          <div class="principle-desc" data-i18n="about.principle.2.desc">Every engagement tied to outcomes you can see and track.</div>
+        </div>
+        <div>
+          <div class="principle-num">03</div>
+          <div class="principle-title" data-i18n="about.principle.3.title">Long-term partnership</div>
+          <div class="principle-desc" data-i18n="about.principle.3.desc">We're in it for the relationship, not the transaction.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ APPROACH ══════════════════════════════════════ -->
+<section class="approach" id="approach">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow" data-i18n="approach.eyebrow">How we work</div>
+      <h2 class="section-title" data-i18n-html="approach.title">Side by side, <span class="it-teal">building together.</span></h2>
+      <p class="section-intro" data-i18n="approach.intro">
+        Our most productive way of working is being positioned as part of your team. Rather than
+        delivering reports from the outside, we work alongside you — on the inside.
+      </p>
+    </div>
+
+    <div class="approach-grid">
+      <div class="approach-item">
+        <div class="approach-num" data-i18n="approach.1.num">01 · DISCOVERY</div>
+        <h3 class="approach-title" data-i18n="approach.1.title">First, we listen.</h3>
+        <p class="approach-desc" data-i18n="approach.1.desc">
+          We don't take a single step without understanding you, your team and your real needs.
+          We ask the right questions and clarify the actual problem.
+        </p>
+      </div>
+      <div class="approach-item">
+        <div class="approach-num" data-i18n="approach.2.num">02 · STRATEGY</div>
+        <h3 class="approach-title" data-i18n="approach.2.title">We plan together.</h3>
+        <p class="approach-desc" data-i18n="approach.2.desc">
+          We build a measurable, realistic roadmap aligned with your goals. No surprises —
+          expectation alignment comes first.
+        </p>
+      </div>
+      <div class="approach-item">
+        <div class="approach-num" data-i18n="approach.3.num">03 · DELIVERY</div>
+        <h3 class="approach-title" data-i18n="approach.3.title">We work alongside.</h3>
+        <p class="approach-desc" data-i18n="approach.3.desc">
+          We step into your team's rhythm and bring the plan to life through regular communication
+          and transparent reporting.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA STRIP ════════════════════════════════════ -->
+<section class="cta-strip">
+  <svg class="cta-paw" viewBox="0 0 100 100" fill="white">
+    <use href="#paw"/>
+  </svg>
+  <div class="container">
+    <div class="cta-grid">
+      <h2 class="cta-title" data-i18n-html="cta.title">Your project, <em>our paws on deck.</em></h2>
+      <div class="cta-action">
+        <a href="#contact" class="btn btn-primary">
+          <span data-i18n="cta.button">Schedule an intro call</span>
+          <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══════════════════════════════════════ -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="contact-grid">
+
+      <div class="contact-info">
+        <div class="section-eyebrow" data-i18n="contact.eyebrow">Get in touch</div>
+        <h2 class="section-title" data-i18n-html="contact.title">Let's <span class="it-teal">talk.</span></h2>
+        <p data-i18n="contact.desc">
+          Reach out to discuss your project, request DHTMLX licensing, or explore
+          collaboration opportunities. The first conversation is always on us.
+        </p>
+
+        <ul class="contact-list">
+          <li>
+            <span class="contact-key" data-i18n="contact.key.email">Email</span>
+            <a href="mailto:info@mambas.com.tr" class="contact-val">info@mambas.com.tr</a>
+          </li>
+          <li>
+            <span class="contact-key" data-i18n="contact.key.location">Location</span>
+            <span class="contact-val" data-i18n="contact.val.location">İzmir, Türkiye</span>
+          </li>
+          <li>
+            <span class="contact-key">LinkedIn</span>
+            <a href="https://www.linkedin.com/company/71572805/" target="_blank" rel="noopener noreferrer" class="contact-val">linkedin.com/company/mambas-consulting</a>
+          </li>
+          <li>
+            <span class="contact-key" data-i18n="contact.key.dhtmlx">DHTMLX Directory</span>
+            <a href="https://dhtmlx.com/docs/resellers.shtml" target="_blank" rel="noopener noreferrer" class="contact-val">dhtmlx.com/resellers</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="form direct-contact">
+        <div class="direct-paw">
+          <svg viewBox="0 0 100 100" fill="var(--teal)">
+            <use href="#paw"/>
+          </svg>
+        </div>
+        <h3 class="direct-title" data-i18n="contact.direct.title">Drop us a line.</h3>
+        <p class="direct-desc" data-i18n="contact.direct.desc">
+          Tell us about your project, ask about DHTMLX licensing, or just say hello.
+          We'll get back to you within a business day.
+        </p>
+        <a href="mailto:info@mambas.com.tr?subject=Hello%20Mambas" class="form-submit">
+          <span data-i18n="contact.direct.button">Send a message</span>
+          <span class="arrow">→</span>
+        </a>
+        <div class="direct-email">
+          <span data-i18n="contact.direct.or">or write directly to</span>
+          <a href="mailto:info@mambas.com.tr">info@mambas.com.tr</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ════════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <a href="#" class="logo" style="font-size: 1.4rem;">
+          <svg class="logo-paw" viewBox="0 0 100 100" fill="var(--teal)">
+            <use href="#paw"/>
+          </svg>
+          <span class="logo-name">Mambas</span>
+        </a>
+        <p class="footer-tagline" data-i18n="footer.tagline">
+          Partners in delivery. Project management, PMO and data analytics
+          consultancy. Official DHTMLX reseller in Türkiye.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer.col.services">Services</h4>
+        <ul>
+          <li><a href="#services" data-i18n="footer.link.pm">Project Management</a></li>
+          <li><a href="#services" data-i18n="footer.link.pmo">PMO &amp; Process</a></li>
+          <li><a href="#services" data-i18n="footer.link.data">Data Analytics</a></li>
+          <li><a href="#services" data-i18n="footer.link.dhtmlx">DHTMLX Licensing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer.col.company">Company</h4>
+        <ul>
+          <li><a href="#about" data-i18n="footer.link.about">About us</a></li>
+          <li><a href="#approach" data-i18n="footer.link.approach">Approach</a></li>
+          <li><a href="#contact" data-i18n="footer.link.contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer.col.partners">Partners</h4>
+        <ul>
+          <li><a href="https://dhtmlx.com/" target="_blank" rel="noopener noreferrer">DHTMLX</a></li>
+          <li><a href="https://dhtmlx.com/docs/resellers.shtml" target="_blank" rel="noopener noreferrer" data-i18n="footer.link.directory">Reseller directory</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div data-i18n="footer.copy">© 2026 Mambas Consulting · All rights reserved</div>
+      <div data-i18n="footer.reseller">DHTMLX official reseller in Türkiye</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const I18N = {
+    en: {
+      "meta.title": "Mambas Consulting — Project Management, Data & Software Consultancy",
+
+      "nav.services": "Services",
+      "nav.about": "About",
+      "nav.approach": "Approach",
+      "nav.contact": "Contact",
+      "nav.cta": "Get in touch",
+
+      "hero.eyebrow": "Enterprise consultancy · Official DHTMLX reseller in Türkiye",
+      "hero.title": '<span class="em-teal">Better</span> projects, <span class="em-rose">built</span> <span class="em-peach">together.</span>',
+      "hero.sub": "At Mambas Consulting we deliver end-to-end project management, PMO and data analytics consultancy. We embed with our clients' teams to produce sustainable, measurable outcomes — and back it up with DHTMLX UI components where it matters.",
+      "hero.ctaPrimary": "Let's work together",
+      "hero.ctaGhost": "Our services",
+
+      "pillar.1.label": "Years of experience",
+      "pillar.1.text": "A decade of project management and consultancy expertise.",
+      "pillar.2.label": "Core focus areas",
+      "pillar.2.text": "Project management, PMO consultancy and data analytics.",
+      "pillar.3.label": "DHTMLX Reseller",
+      "pillar.3.text": "Türkiye's authorized sales and integration partner.",
+      "pillar.4.label": "Partnership",
+      "pillar.4.text": "Tailored, embedded engagement with every client team.",
+
+      "services.eyebrow": "Our services",
+      "services.title": 'Managing your enterprise projects <span class="it-teal">together.</span>',
+      "services.intro": "From project management and data analytics to software consultancy and licensed UI component solutions — we are by your side at every stage your organization needs us.",
+
+      "services.1.title": "Project Management Consultancy",
+      "services.1.desc": "We have been delivering enterprise projects for over a decade using both classical (Waterfall) and agile (Agile, Scrum, SAFe) methodologies. From building roadmaps to managing your team's daily rhythm — we step inside as part of your team and take active ownership in planning, risk management, stakeholder communication and delivery.",
+      "services.1.tag.waterfall": "Waterfall",
+      "services.1.tag.roadmap": "Roadmap",
+      "services.1.tag.risk": "Risk Management",
+      "services.1.tag.stakeholder": "Stakeholder Management",
+
+      "services.2.title": "PMO & Process Consultancy",
+      "services.2.desc": "We help organizations establish or transform their Project Management Office — designing governance models, standardizing methodologies, and embedding processes that scale with your portfolio. From maturity assessment to operational rollout, we work shoulder-to-shoulder with your leadership.",
+      "services.2.tag.setup": "PMO Setup",
+      "services.2.tag.transformation": "PMO Transformation",
+      "services.2.tag.governance": "Governance Design",
+      "services.2.tag.process": "Process Standardization",
+      "services.2.tag.portfolio": "Portfolio Management",
+      "services.2.tag.maturity": "Maturity Assessment",
+
+      "services.3.title": "Data Analytics & Reporting",
+      "services.3.desc": "We give decision-makers the clarity they need: asking the right questions, collecting the right data, turning it into meaningful insight. From operational reporting to strategic dashboards, from KPI design to performance analytics — we deliver end-to-end support.",
+      "services.3.tag.dashboards": "Dashboards",
+      "services.3.tag.kpi": "KPI Design",
+      "services.3.tag.reporting": "Operational Reporting",
+      "services.3.tag.process": "Process Analysis",
+      "services.3.tag.bi": "Business Intelligence",
+
+      "services.4.title": "DHTMLX Licensing & Consultancy",
+      "services.4.badge": "Official Reseller",
+      "services.4.desc": "As DHTMLX's official sales partner in Türkiye, we license all JavaScript UI components — including Gantt, Scheduler, Kanban, Grid, Spreadsheet, Pivot and Diagram. Beyond licensing, we provide consultancy on product selection, integration and customization for teams building their own project tools.",
+      "services.4.tag.customization": "Customization",
+
+      "about.eyebrow": "About us",
+      "about.title": 'A team with a <span class="it-peach">different</span> take on consultancy.',
+      "about.p1": "Mambas Consulting is a consultancy firm that believes the success of enterprise projects depends not only on methodology, but on standing beside the team.",
+      "about.p2": "With more than a decade of experience, we focus on three areas where we add the most value: project management consultancy, PMO & process consultancy, and data analytics. We work with a broad toolkit — from classical project management to agile methodologies (Agile, Scrum, SAFe) — and adapt our approach to the unique dynamics of every engagement.",
+      "about.p3": "We value international partnerships: we are the official authorized reseller in Türkiye of DHTMLX, the globally recognized JavaScript UI component library. Our clients gain both direct access to licensed products and technical advisory for integrating these components into their enterprise systems.",
+      "about.principle.1.title": "Clear communication",
+      "about.principle.1.desc": "No jargon, no hidden agendas — straight talk from day one.",
+      "about.principle.2.title": "Measurable outcomes",
+      "about.principle.2.desc": "Every engagement tied to outcomes you can see and track.",
+      "about.principle.3.title": "Long-term partnership",
+      "about.principle.3.desc": "We're in it for the relationship, not the transaction.",
+
+      "approach.eyebrow": "How we work",
+      "approach.title": 'Side by side, <span class="it-teal">building together.</span>',
+      "approach.intro": "Our most productive way of working is being positioned as part of your team. Rather than delivering reports from the outside, we work alongside you — on the inside.",
+      "approach.1.num": "01 · DISCOVERY",
+      "approach.1.title": "First, we listen.",
+      "approach.1.desc": "We don't take a single step without understanding you, your team and your real needs. We ask the right questions and clarify the actual problem.",
+      "approach.2.num": "02 · STRATEGY",
+      "approach.2.title": "We plan together.",
+      "approach.2.desc": "We build a measurable, realistic roadmap aligned with your goals. No surprises — expectation alignment comes first.",
+      "approach.3.num": "03 · DELIVERY",
+      "approach.3.title": "We work alongside.",
+      "approach.3.desc": "We step into your team's rhythm and bring the plan to life through regular communication and transparent reporting.",
+
+      "cta.title": "Your project, <em>our paws on deck.</em>",
+      "cta.button": "Schedule an intro call",
+
+      "contact.eyebrow": "Get in touch",
+      "contact.title": 'Let\'s <span class="it-teal">talk.</span>',
+      "contact.desc": "Reach out to discuss your project, request DHTMLX licensing, or explore collaboration opportunities. The first conversation is always on us.",
+      "contact.key.email": "Email",
+      "contact.key.location": "Location",
+      "contact.val.location": "İzmir, Türkiye",
+      "contact.key.dhtmlx": "DHTMLX Directory",
+      "contact.direct.title": "Drop us a line.",
+      "contact.direct.desc": "Tell us about your project, ask about DHTMLX licensing, or just say hello. We'll get back to you within a business day.",
+      "contact.direct.button": "Send a message",
+      "contact.direct.or": "or write directly to",
+
+      "footer.tagline": "Partners in delivery. Project management, PMO and data analytics consultancy. Official DHTMLX reseller in Türkiye.",
+      "footer.col.services": "Services",
+      "footer.col.company": "Company",
+      "footer.col.partners": "Partners",
+      "footer.link.pm": "Project Management",
+      "footer.link.pmo": "PMO & Process",
+      "footer.link.data": "Data Analytics",
+      "footer.link.dhtmlx": "DHTMLX Licensing",
+      "footer.link.about": "About us",
+      "footer.link.approach": "Approach",
+      "footer.link.contact": "Contact",
+      "footer.link.directory": "Reseller directory",
+      "footer.copy": "© 2026 Mambas Consulting · All rights reserved",
+      "footer.reseller": "DHTMLX official reseller in Türkiye"
+    },
+
+    tr: {
+      "meta.title": "Mambas Consulting — Proje Yönetimi, Veri ve Yazılım Danışmanlığı",
+
+      "nav.services": "Hizmetler",
+      "nav.about": "Hakkımızda",
+      "nav.approach": "Yaklaşımımız",
+      "nav.contact": "İletişim",
+      "nav.cta": "İletişime geçin",
+
+      "hero.eyebrow": "Kurumsal danışmanlık · Türkiye'nin resmi DHTMLX bayisi",
+      "hero.title": '<span class="em-teal">Daha iyi</span> projeler, <span class="em-rose">birlikte</span> <span class="em-peach">inşa edilen.</span>',
+      "hero.sub": "Mambas Consulting olarak uçtan uca proje yönetimi, PMO ve veri analitiği danışmanlığı sunuyoruz. Müşterilerimizin ekiplerinin içine girer; sürdürülebilir, ölçülebilir sonuçlar üretiriz — ve gereken yerde DHTMLX UI bileşenleriyle destekleriz.",
+      "hero.ctaPrimary": "Birlikte çalışalım",
+      "hero.ctaGhost": "Hizmetlerimiz",
+
+      "pillar.1.label": "Yıllık deneyim",
+      "pillar.1.text": "On yılı aşkın proje yönetimi ve danışmanlık uzmanlığı.",
+      "pillar.2.label": "Temel odak alanı",
+      "pillar.2.text": "Proje yönetimi, PMO danışmanlığı ve veri analitiği.",
+      "pillar.3.label": "DHTMLX Bayisi",
+      "pillar.3.text": "Türkiye'nin yetkili satış ve entegrasyon iş ortağı.",
+      "pillar.4.label": "Ortaklık",
+      "pillar.4.text": "Her müşteri ekibiyle özelleştirilmiş, gömülü iş birliği.",
+
+      "services.eyebrow": "Hizmetlerimiz",
+      "services.title": 'Kurumsal projelerinizi <span class="it-teal">birlikte yönetiyoruz.</span>',
+      "services.intro": "Proje yönetimi ve veri analitiğinden yazılım danışmanlığına ve lisanslı UI bileşen çözümlerine kadar — kuruluşunuzun ihtiyaç duyduğu her aşamada yanınızdayız.",
+
+      "services.1.title": "Proje Yönetimi Danışmanlığı",
+      "services.1.desc": "On yılı aşkın süredir hem klasik (Şelale) hem de çevik (Agile, Scrum, SAFe) metodolojilerle kurumsal projeler teslim ediyoruz. Yol haritası oluşturmaktan ekibinizin günlük ritmini yönetmeye kadar — ekibinizin bir parçası olarak yer alır; planlama, risk yönetimi, paydaş iletişimi ve teslimatta aktif sorumluluk üstleniriz.",
+      "services.1.tag.waterfall": "Şelale",
+      "services.1.tag.roadmap": "Yol Haritası",
+      "services.1.tag.risk": "Risk Yönetimi",
+      "services.1.tag.stakeholder": "Paydaş Yönetimi",
+
+      "services.2.title": "PMO ve Süreç Danışmanlığı",
+      "services.2.desc": "Organizasyonların Proje Yönetim Ofisi'ni kurmasına veya dönüştürmesine yardımcı oluyoruz — yönetişim modelleri tasarlıyor, metodolojileri standartlaştırıyor ve portföyünüzle birlikte ölçeklenen süreçler kuruyoruz. Olgunluk değerlendirmesinden operasyonel uygulamaya kadar liderliğinizle omuz omuza çalışıyoruz.",
+      "services.2.tag.setup": "PMO Kurulumu",
+      "services.2.tag.transformation": "PMO Dönüşümü",
+      "services.2.tag.governance": "Yönetişim Tasarımı",
+      "services.2.tag.process": "Süreç Standardizasyonu",
+      "services.2.tag.portfolio": "Portföy Yönetimi",
+      "services.2.tag.maturity": "Olgunluk Değerlendirmesi",
+
+      "services.3.title": "Veri Analitiği ve Raporlama",
+      "services.3.desc": "Karar vericilere ihtiyaç duydukları netliği sunarız: doğru soruları sormak, doğru veriyi toplamak, bunu anlamlı içgörüye dönüştürmek. Operasyonel raporlamadan stratejik dashboard'lara, KPI tasarımından performans analitiğine kadar — uçtan uca destek sağlarız.",
+      "services.3.tag.dashboards": "Dashboard'lar",
+      "services.3.tag.kpi": "KPI Tasarımı",
+      "services.3.tag.reporting": "Operasyonel Raporlama",
+      "services.3.tag.process": "Süreç Analizi",
+      "services.3.tag.bi": "İş Zekâsı",
+
+      "services.4.title": "DHTMLX Lisanslama ve Danışmanlığı",
+      "services.4.badge": "Resmi Bayi",
+      "services.4.desc": "DHTMLX'in Türkiye'deki resmi satış ortağı olarak Gantt, Scheduler, Kanban, Grid, Spreadsheet, Pivot ve Diagram dahil tüm JavaScript UI bileşenlerini lisanslıyoruz. Lisanslamanın ötesinde, kendi proje araçlarını geliştiren ekipler için ürün seçimi, entegrasyon ve özelleştirme konularında danışmanlık sağlıyoruz.",
+      "services.4.tag.customization": "Özelleştirme",
+
+      "about.eyebrow": "Hakkımızda",
+      "about.title": 'Danışmanlığa <span class="it-peach">farklı</span> bir bakış açısıyla yaklaşan bir ekip.',
+      "about.p1": "Mambas Consulting, kurumsal projelerin başarısının yalnızca metodolojiye değil, ekibin yanında durmaya bağlı olduğuna inanan bir danışmanlık firmasıdır.",
+      "about.p2": "On yılı aşkın deneyimimizle en çok değer kattığımız üç alana odaklanıyoruz: proje yönetimi danışmanlığı, PMO ve süreç danışmanlığı ve veri analitiği. Klasik proje yönetiminden çevik metodolojilere (Agile, Scrum, SAFe) kadar geniş bir araç setiyle çalışır ve yaklaşımımızı her etkileşimin kendine özgü dinamiklerine uyarlarız.",
+      "about.p3": "Uluslararası ortaklıklara değer veriyoruz: küresel olarak tanınan JavaScript UI bileşen kütüphanesi DHTMLX'in Türkiye'deki resmi yetkili bayisiyiz. Müşterilerimiz hem lisanslı ürünlere doğrudan erişim hem de bu bileşenleri kurumsal sistemlerine entegre etmek için teknik danışmanlık kazanır.",
+      "about.principle.1.title": "Net iletişim",
+      "about.principle.1.desc": "Jargon yok, gizli ajanda yok — ilk günden açık konuşma.",
+      "about.principle.2.title": "Ölçülebilir sonuçlar",
+      "about.principle.2.desc": "Her etkileşim, görebileceğiniz ve takip edebileceğiniz sonuçlara bağlıdır.",
+      "about.principle.3.title": "Uzun vadeli ortaklık",
+      "about.principle.3.desc": "İşlemden değil, ilişkiden yanayız.",
+
+      "approach.eyebrow": "Nasıl çalışıyoruz",
+      "approach.title": 'Yan yana, <span class="it-teal">birlikte inşa ediyoruz.</span>',
+      "approach.intro": "En verimli çalışma şeklimiz, ekibinizin bir parçası olarak konumlanmaktır. Dışarıdan rapor sunmak yerine, içeriden — sizinle birlikte çalışırız.",
+      "approach.1.num": "01 · KEŞİF",
+      "approach.1.title": "Önce dinleriz.",
+      "approach.1.desc": "Sizi, ekibinizi ve gerçek ihtiyaçlarınızı anlamadan tek bir adım atmıyoruz. Doğru soruları sorar ve asıl problemi netleştiririz.",
+      "approach.2.num": "02 · STRATEJİ",
+      "approach.2.title": "Birlikte planlarız.",
+      "approach.2.desc": "Hedeflerinizle uyumlu, ölçülebilir ve gerçekçi bir yol haritası oluştururuz. Sürpriz yok — beklenti uyumu önce gelir.",
+      "approach.3.num": "03 · TESLİMAT",
+      "approach.3.title": "Yan yana çalışırız.",
+      "approach.3.desc": "Ekibinizin ritmine ayak uydurur ve düzenli iletişim ve şeffaf raporlamayla planı hayata geçiririz.",
+
+      "cta.title": "Projeniz, <em>pençelerimiz görevde.</em>",
+      "cta.button": "Tanışma görüşmesi planlayın",
+
+      "contact.eyebrow": "İletişime geçin",
+      "contact.title": '<span class="it-teal">Konuşalım.</span>',
+      "contact.desc": "Projenizi konuşmak, DHTMLX lisansı talep etmek veya iş birliği fırsatlarını keşfetmek için bize ulaşın. İlk görüşme her zaman bizden.",
+      "contact.key.email": "E-posta",
+      "contact.key.location": "Konum",
+      "contact.val.location": "İzmir, Türkiye",
+      "contact.key.dhtmlx": "DHTMLX Dizini",
+      "contact.direct.title": "Bize bir satır yazın.",
+      "contact.direct.desc": "Projenizden bahsedin, DHTMLX lisansı hakkında soru sorun veya sadece merhaba deyin. Bir iş günü içinde size dönüş yaparız.",
+      "contact.direct.button": "Mesaj gönder",
+      "contact.direct.or": "veya doğrudan yazın",
+
+      "footer.tagline": "Teslimatta iş ortağınız. Proje yönetimi, PMO ve veri analitiği danışmanlığı. Türkiye'nin resmi DHTMLX bayisi.",
+      "footer.col.services": "Hizmetler",
+      "footer.col.company": "Şirket",
+      "footer.col.partners": "İş Ortakları",
+      "footer.link.pm": "Proje Yönetimi",
+      "footer.link.pmo": "PMO ve Süreç",
+      "footer.link.data": "Veri Analitiği",
+      "footer.link.dhtmlx": "DHTMLX Lisanslama",
+      "footer.link.about": "Hakkımızda",
+      "footer.link.approach": "Yaklaşımımız",
+      "footer.link.contact": "İletişim",
+      "footer.link.directory": "Bayi dizini",
+      "footer.copy": "© 2026 Mambas Consulting · Tüm hakları saklıdır",
+      "footer.reseller": "Türkiye'nin resmi DHTMLX bayisi"
+    }
+  };
+
+  const STORAGE_KEY = 'mambas.lang';
+  const SUPPORTED = ['en', 'tr'];
+
+  function detectLang() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved && SUPPORTED.includes(saved)) return saved;
+    const nav = (navigator.language || 'en').toLowerCase();
+    if (nav.startsWith('tr')) return 'tr';
+    return 'en';
+  }
+
+  function applyLang(lang) {
+    if (!SUPPORTED.includes(lang)) lang = 'en';
+    const dict = I18N[lang];
+
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key] != null) el.textContent = dict[key];
+    });
+
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.getAttribute('data-i18n-html');
+      if (dict[key] != null) el.innerHTML = dict[key];
+    });
+
+    const title = dict['meta.title'];
+    if (title) document.title = title;
+
+    document.querySelectorAll('.lang-switch button').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+
+    localStorage.setItem(STORAGE_KEY, lang);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.lang-switch button').forEach(btn => {
+      btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+    });
+    applyLang(detectLang());
+  });
+</script>
+
+</body>
+</html>
